@@ -6,7 +6,7 @@ import customJson from "../utils";
 import { ProductCreateSchema } from "../models/products";
 import { env } from "process";
 
-// const connectionString = `${process.env.DATABASE_URL}`;
+
 const pool = new Pool({ connectionString: env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter }).$extends({

@@ -1,9 +1,14 @@
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 import customJson from "../utils";
-import { ProductCreateSchema } from '../models/products';
+import { ProductCreateSchema } from "../models/products";
 
-const prisma = new PrismaClient().$extends({
+const connectionString = `${process.env.DATABASE_URL}`;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter }).$extends({
   query: {
     product: {
       create({ args, query }) {
@@ -13,7 +18,6 @@ const prisma = new PrismaClient().$extends({
     },
   },
 });
-
 
 exports.getAllProducts = async (req: Request, res: Response) => {
   let orderBy = Object.keys(req.query)[0] || "id";

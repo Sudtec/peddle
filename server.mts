@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 const productRouter = require("./routes/productRoutes");
 
 const app = express();

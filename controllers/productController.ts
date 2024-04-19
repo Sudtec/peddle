@@ -6,7 +6,6 @@ import customJson from "../utils";
 import { ProductCreateSchema } from "../models/products";
 import { env } from "process";
 
-
 const pool = new Pool({ connectionString: env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter }).$extends({
@@ -54,6 +53,7 @@ exports.getAllProducts = async (req: Request, res: Response) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: "Failed",
       message: err,
@@ -73,6 +73,7 @@ exports.createProduct = async (req: Request, res: Response) => {
       },
     });
   } catch (err: any) {
+    console.log(err);
     if (
       err instanceof Prisma.PrismaClientKnownRequestError &&
       err.code === "P2002"

@@ -10,5 +10,5 @@ app.use("/products", productRouter);
 
 const PORT = process.env.PG_PORT || 4000;
 app.listen(PORT, () => {
-  console.log("Listening", PORT);
+  console.log("Listening");
 });

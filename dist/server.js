@@ -10,7 +10,7 @@ const app = (0, express_1.default)();
 // ** CORS **
 let whitelist = [
     "http://localhost:3000",
-    "https://peddle.vercel.app",
+    "https://peddle-fe.vercel.app'",
 ];
 const corsOptions = {
     origin: (origin, callback) => {

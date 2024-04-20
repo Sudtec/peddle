@@ -8,9 +8,7 @@ let whitelist: string[] = [
   "http://localhost:3000",
   "https://peddle.vercel.app",
 ];
-if (process.env.NODE_ENV !== "production") {
-  whitelist = [...whitelist, "http://localhost:3000"];
-}
+
 
 const corsOptions = {
   origin: (origin: any, callback: any) => {
@@ -23,7 +21,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(cors());
 app.use(express.json());
 
 app.use("/products", productRouter);

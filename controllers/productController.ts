@@ -20,9 +20,10 @@ const prisma = new PrismaClient({ adapter }).$extends({
 });
 
 exports.getAllProducts = async (req: Request, res: Response) => {
-  let orderBy = Object.keys(req.query)[0] || "id";
-  let orderDir = Object.values(req.query)[0] || "desc";
-  console.log("Get");
+  let orderBy = req.query.sort_by || "id";
+  let orderDir = req.query.order_by || "desc";
+  let searchTerm = req.query.filter || "";
+
 
   try {
     const product = await prisma.product.findMany({
@@ -31,20 +32,20 @@ exports.getAllProducts = async (req: Request, res: Response) => {
         OR: [
           {
             productName: {
-              contains: req?.body?.searchTerm || "",
+              contains: searchTerm as string,
               mode: "insensitive",
             },
           },
           {
             brand: {
-              contains: req?.body?.searchTerm || "",
+              contains: searchTerm as string,
               mode: "insensitive",
             },
           },
         ],
       },
       orderBy: {
-        [orderBy]: orderDir.toString(),
+        [orderBy.toString()]: orderDir.toString(),
       },
     });
     res.status(200).json({

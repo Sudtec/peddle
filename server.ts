@@ -6,7 +6,7 @@ const app = express();
 // ** CORS **
 let whitelist: string[] = [
   "http://localhost:3000",
-  "https://peddle-fe.vercel.app/",
+  "https://peddle-fe.vercel.app",
 ];
 
 

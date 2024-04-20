@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient, Prisma } from "@prisma/client";
 import customJson from "../utils";
 import { ProductCreateSchema } from "../models/products";
-import { env } from "process";
-const Prisma = require("../database");
 
-const prisma = Prisma.$extends({
+const connectionString = `${process.env.DATABASE_URL}`;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter }).$extends({
   query: {
     product: {
-      create({ args, query }: { args: any, query: any }) {
+      create({ args, query }: { args: any; query: any }) {
         args.data = ProductCreateSchema.parse(args.data);
         return query(args);
       },

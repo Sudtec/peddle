@@ -22,6 +22,7 @@ const prisma = new PrismaClient({ adapter }).$extends({
 exports.getAllProducts = async (req: Request, res: Response) => {
   let orderBy = Object.keys(req.query)[0] || "id";
   let orderDir = Object.values(req.query)[0] || "desc";
+  console.log("Get");
 
   try {
     const product = await prisma.product.findMany({
@@ -62,6 +63,7 @@ exports.getAllProducts = async (req: Request, res: Response) => {
 };
 
 exports.createProduct = async (req: Request, res: Response) => {
+  console.log(req.body, "Creation");
   try {
     const product = await prisma.product.create({
       data: req.body,

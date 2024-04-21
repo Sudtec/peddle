@@ -24,7 +24,6 @@ exports.getAllProducts = async (req: Request, res: Response) => {
   let orderDir = req.query.order_by || "desc";
   let searchTerm = req.query.filter || "";
 
-
   try {
     const product = await prisma.product.findMany({
       take: 20,
@@ -46,6 +45,29 @@ exports.getAllProducts = async (req: Request, res: Response) => {
       },
       orderBy: {
         [orderBy.toString()]: orderDir.toString(),
+      },
+    });
+    res.status(200).json({
+      status: "Success",
+      data: {
+        product: JSON.parse(customJson(product)),
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: "Failed",
+      message: err,
+    });
+  }
+};
+exports.getProduct = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const product = await prisma.product.findUnique({
+      where: {
+        id: parseInt(id),
       },
     });
     res.status(200).json({

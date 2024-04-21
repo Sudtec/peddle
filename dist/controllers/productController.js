@@ -63,6 +63,30 @@ exports.getAllProducts = async (req, res) => {
         });
     }
 };
+exports.getProduct = async (req, res) => {
+    const { id } = req.params;
+    console.log(req.params);
+    try {
+        const product = await prisma.product.findUnique({
+            where: {
+                id: parseInt(req.params.id),
+            },
+        });
+        res.status(200).json({
+            status: "Success",
+            data: {
+                product: JSON.parse((0, utils_1.default)(product)),
+            },
+        });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: "Failed",
+            message: err,
+        });
+    }
+};
 exports.createProduct = async (req, res) => {
     console.log(req.body, "Creation");
     try {
